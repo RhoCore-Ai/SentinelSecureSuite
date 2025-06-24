@@ -1,19 +1,813 @@
-<!doctype html>
-<html>
-	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width" />
-		<title>My static Space</title>
-		<link rel="stylesheet" href="style.css" />
-	</head>
-	<body>
-		<div class="card">
-			<h1>Welcome to your static Space!</h1>
-			<p>You can modify this app directly by editing <i>index.html</i> in the Files and versions tab.</p>
-			<p>
-				Also don't forget to check the
-				<a href="https://huggingface.co/docs/hub/spaces" target="_blank">Spaces documentation</a>.
-			</p>
-		</div>
-	</body>
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SentinelSecureSuite</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --deep-blue: #0A192F;
+            --dark-gray: #112240;
+            --light-text: #CCD6F6;
+            --accent: #64FFDA;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--deep-blue);
+            color: var(--light-text);
+            scroll-behavior: smooth;
+        }
+        
+        .hero-bg {
+            background: linear-gradient(rgba(10, 25, 47, 0.9), rgba(10, 25, 47, 0.9)), 
+                        url('https://images.unsplash.com/photo-1620712943543-bcc4688e7485?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80') no-repeat center center/cover;
+        }
+        
+        .code-block {
+            background-color: #1E2B47;
+            border-left: 3px solid var(--accent);
+        }
+        
+        .tab-active {
+            border-bottom: 2px solid var(--accent);
+            color: var(--accent);
+        }
+        
+        .language-switcher {
+            position: relative;
+        }
+        
+        .language-switcher::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--accent);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .language-switcher:hover::after {
+            transform: scaleX(1);
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .module-icon {
+            transition: all 0.3s ease;
+        }
+        
+        .module-icon:hover {
+            transform: translateY(-5px);
+            color: var(--accent);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="sticky top-0 z-50 bg-[#0A192F] shadow-lg">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="text-2xl font-bold text-[#64FFDA]">SentinelSecureSuite</div>
+            
+            <nav class="hidden md:flex space-x-8">
+                <a href="#home" class="text-[#CCD6F6] hover:text-[#64FFDA] transition duration-300 active">Home</a>
+                <a href="#principles" class="text-[#CCD6F6] hover:text-[#64FFDA] transition duration-300">Prinzipien</a>
+                <a href="#platform" class="text-[#CCD6F6] hover:text-[#64FFDA] transition duration-300">Plattform</a>
+                <a href="#vision" class="text-[#CCD6F6] hover:text-[#64FFDA] transition duration-300">Vision</a>
+                <a href="#contact" class="text-[#CCD6F6] hover:text-[#64FFDA] transition duration-300">Kontakt</a>
+            </nav>
+            
+            <div class="flex items-center space-x-4">
+                <button id="languageToggle" class="language-switcher text-[#CCD6F6] hover:text-[#64FFDA] transition duration-300">
+                    <span class="active">DE</span> / <span>EN</span>
+                </button>
+                
+                <button id="mobileMenuButton" class="md:hidden text-[#CCD6F6]">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="hidden md:hidden bg-[#112240] py-4 px-4">
+            <div class="flex flex-col space-y-4">
+                <a href="#home" class="text-[#CCD6F6] hover:text-[#64FFDA] transition duration-300">Home</a>
+                <a href="#principles" class="text-[#CCD6F6] hover:text-[#64FFDA] transition duration-300">Prinzipien</a>
+                <a href="#platform" class="text-[#CCD6F6] hover:text-[#64FFDA] transition duration-300">Plattform</a>
+                <a href="#vision" class="text-[#CCD6F6] hover:text-[#64FFDA] transition duration-300">Vision</a>
+                <a href="#contact" class="text-[#CCD6F6] hover:text-[#64FFDA] transition duration-300">Kontakt</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Home Page -->
+        <section id="home" class="hero-bg min-h-screen flex items-center justify-center py-20">
+            <div class="container mx-auto px-4">
+                <div class="max-w-4xl mx-auto text-center fade-in">
+                    <h1 class="text-5xl md:text-7xl font-bold text-[#64FFDA] mb-6">SentinelSecureSuite</h1>
+                    <p class="text-xl md:text-2xl text-[#CCD6F6] mb-8 de-content">
+                        Ein autonomes, konvergentes und resilientes Sicherheits-Ökosystem für die Industrie 4.0.
+                    </p>
+                    <p class="text-xl md:text-2xl text-[#CCD6F6] mb-8 en-content hidden">
+                        An Autonomous, Converged, and Resilient Security Ecosystem for Industry 4.0.
+                    </p>
+                    <p class="text-lg text-[#8892B0] mb-12 de-content">
+                        Finaler Architektur-Entwurf von T. Baumann für die Sicherheitsherausforderungen der digitalen Transformation.
+                    </p>
+                    <p class="text-lg text-[#8892B0] mb-12 en-content hidden">
+                        Final Architectural Blueprint by T. Baumann for the security challenges of digital transformation.
+                    </p>
+                    <a href="#principles" class="inline-block bg-transparent border-2 border-[#64FFDA] text-[#64FFDA] px-8 py-3 rounded hover:bg-[#64FFDA] hover:text-[#0A192F] transition duration-300 de-content">
+                        Architektur entdecken
+                    </a>
+                    <a href="#principles" class="inline-block bg-transparent border-2 border-[#64FFDA] text-[#64FFDA] px-8 py-3 rounded hover:bg-[#64FFDA] hover:text-[#0A192F] transition duration-300 en-content hidden">
+                        Discover Architecture
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Principles Section -->
+        <section id="principles" class="py-20 bg-[#112240]">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl md:text-4xl font-bold text-[#64FFDA] mb-4 text-center de-content">Unsere Leitprinzipien</h2>
+                <h2 class="text-3xl md:text-4xl font-bold text-[#64FFDA] mb-4 text-center en-content hidden">Our Core Principles</h2>
+                
+                <p class="text-lg text-[#CCD6F6] mb-12 max-w-3xl mx-auto text-center de-content">
+                    Diese sieben Prinzipien bilden das Fundament für die Resilienz und Intelligenz des gesamten Systems.
+                </p>
+                <p class="text-lg text-[#CCD6F6] mb-12 max-w-3xl mx-auto text-center en-content hidden">
+                    These seven principles form the foundation for the resilience and intelligence of the entire system.
+                </p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Principle 1 -->
+                    <div class="bg-[#0A192F] p-6 rounded-lg shadow-lg hover:shadow-xl transition duration-300">
+                        <div class="text-[#64FFDA] text-4xl mb-4">
+                            <i class="fas fa-link"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-[#CCD6F6] mb-2 de-content">Integration</h3>
+                        <h3 class="text-xl font-bold text-[#CCD6F6] mb-2 en-content hidden">Integration</h3>
+                        <p class="text-[#8892B0] de-content">
+                            Alle Module agieren als ein synergetisches Ganzes, nicht als isolierte Einzellösungen. Durch standardisierte Schnittstellen und einheitliche Protokolle entsteht ein Sicherheitsnetzwerk, das mehr ist als die Summe seiner Teile.
+                        </p>
+                        <p class="text-[#8892B0] en-content hidden">
+                            All modules act as a synergistic whole, not as isolated individual solutions. Through standardized interfaces and uniform protocols, a security network emerges that is more than the sum of its parts.
+                        </p>
+                    </div>
+                    
+                    <!-- Principle 2 -->
+                    <div class="bg-[#0A192F] p-6 rounded-lg shadow-lg hover:shadow-xl transition duration-300">
+                        <div class="text-[#64FFDA] text-4xl mb-4">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-[#CCD6F6] mb-2 de-content">Autonomie</h3>
+                        <h3 class="text-xl font-bold text-[#CCD6F6] mb-2 en-content hidden">Autonomy</h3>
+                        <p class="text-[#8892B0] de-content">
+                            Die Plattform verfügt über selbstlernende und selbstheilende Fähigkeiten. Durch maschinelles Lernen und adaptive Algorithmen kann sie Bedrohungen eigenständig erkennen, klassifizieren und abwehren.
+                        </p>
+                        <p class="text-[#8892B0] en-content hidden">
+                            The platform has self-learning and self-healing capabilities. Through machine learning and adaptive algorithms, it can independently detect, classify, and defend against threats.
+                        </p>
+                    </div>
+                    
+                    <!-- Principle 3 -->
+                    <div class="bg-[#0A192F] p-6 rounded-lg shadow-lg hover:shadow-xl transition duration-300">
+                        <div class="text-[#64FFDA] text-4xl mb-4">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-[#CCD6F6] mb-2 de-content">Resilienz</h3>
+                        <h3 class="text-xl font-bold text-[#CCD6F6] mb-2 en-content hidden">Resilience</h3>
+                        <p class="text-[#8892B0] de-content">
+                            Das System ist so konzipiert, dass es selbst bei partiellen Ausfällen oder Kompromittierungen weiterhin seine Kernfunktionen erfüllt. Redundante Architekturen und Failover-Mechanismen gewährleisten kontinuierlichen Schutz.
+                        </p>
+                        <p class="text-[#8892B0] en-content hidden">
+                            The system is designed to continue performing its core functions even in the event of partial failures or compromises. Redundant architectures and failover mechanisms ensure continuous protection.
+                        </p>
+                    </div>
+                    
+                    <!-- Principle 4 -->
+                    <div class="bg-[#0A192F] p-6 rounded-lg shadow-lg hover:shadow-xl transition duration-300">
+                        <div class="text-[#64FFDA] text-4xl mb-4">
+                            <i class="fas fa-project-diagram"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-[#CCD6F6] mb-2 de-content">Konvergenz</h3>
+                        <h3 class="text-xl font-bold text-[#CCD6F6] mb-2 en-content hidden">Convergence</h3>
+                        <p class="text-[#8892B0] de-content">
+                            IT- und OT-Sicherheit werden nicht mehr als separate Domänen behandelt, sondern als ein integriertes Ganzes. Die Plattform überbrückt die Kluft zwischen diesen Welten mit spezialisierten Gateways und Übersetzungsmechanismen.
+                        </p>
+                        <p class="text-[#8892B0] en-content hidden">
+                            IT and OT security are no longer treated as separate domains but as an integrated whole. The platform bridges the gap between these worlds with specialized gateways and translation mechanisms.
+                        </p>
+                    </div>
+                    
+                    <!-- Principle 5 -->
+                    <div class="bg-[#0A192F] p-6 rounded-lg shadow-lg hover:shadow-xl transition duration-300">
+                        <div class="text-[#64FFDA] text-4xl mb-4">
+                            <i class="fas fa-eye"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-[#CCD6F6] mb-2 de-content">Transparenz</h3>
+                        <h3 class="text-xl font-bold text-[#CCD6F6] mb-2 en-content hidden">Transparency</h3>
+                        <p class="text-[#8892B0] de-content">
+                            Jede Aktion und Entscheidung der Plattform ist nachvollziehbar und auditierbar. Durch klare Protokollierung und erklärbare KI-Modelle entsteht Vertrauen in die automatisierten Prozesse.
+                        </p>
+                        <p class="text-[#8892B0] en-content hidden">
+                            Every action and decision of the platform is traceable and auditable. Through clear logging and explainable AI models, trust in the automated processes is created.
+                        </p>
+                    </div>
+                    
+                    <!-- Principle 6 -->
+                    <div class="bg-[#0A192F] p-6 rounded-lg shadow-lg hover:shadow-xl transition duration-300">
+                        <div class="text-[#64FFDA] text-4xl mb-4">
+                            <i class="fas fa-expand"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-[#CCD6F6] mb-2 de-content">Skalierbarkeit</h3>
+                        <h3 class="text-xl font-bold text-[#CCD6F6] mb-2 en-content hidden">Scalability</h3>
+                        <p class="text-[#8892B0] de-content">
+                            Die Architektur ist sowohl für kleine Industrieanlagen als auch für global verteilte Infrastrukturen geeignet. Durch Microservices und containerisierte Module kann die Plattform mühelos wachsen.
+                        </p>
+                        <p class="text-[#8892B0] en-content hidden">
+                            The architecture is suitable for both small industrial plants and globally distributed infrastructures. Through microservices and containerized modules, the platform can grow effortlessly.
+                        </p>
+                    </div>
+                    
+                    <!-- Principle 7 -->
+                    <div class="bg-[#0A192F] p-6 rounded-lg shadow-lg hover:shadow-xl transition duration-300">
+                        <div class="text-[#64FFDA] text-4xl mb-4">
+                            <i class="fas fa-user-shield"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-[#CCD6F6] mb-2 de-content">Privatsphäre</h3>
+                        <h3 class="text-xl font-bold text-[#CCD6F6] mb-2 en-content hidden">Privacy</h3>
+                        <p class="text-[#8892B0] de-content">
+                            Datenschutz ist kein Hindernis, sondern ein integraler Bestandteil des Designs. Durch Privacy-by-Design-Prinzipien und selektive Anonymisierung werden personenbezogene Daten geschützt, ohne die Sicherheitsfunktionen zu beeinträchtigen.
+                        </p>
+                        <p class="text-[#8892B0] en-content hidden">
+                            Privacy is not an obstacle but an integral part of the design. Through privacy-by-design principles and selective anonymization, personal data is protected without compromising security features.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="text-center mt-12">
+                    <a href="#platform" class="inline-block bg-transparent border-2 border-[#64FFDA] text-[#64FFDA] px-8 py-3 rounded hover:bg-[#64FFDA] hover:text-[#0A192F] transition duration-300 de-content">
+                        Plattform entdecken
+                    </a>
+                    <a href="#platform" class="inline-block bg-transparent border-2 border-[#64FFDA] text-[#64FFDA] px-8 py-3 rounded hover:bg-[#64FFDA] hover:text-[#0A192F] transition duration-300 en-content hidden">
+                        Explore Platform
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Platform Section -->
+        <section id="platform" class="py-20 bg-[#0A192F]">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl md:text-4xl font-bold text-[#64FFDA] mb-4 text-center de-content">Die System-Module im Detail</h2>
+                <h2 class="text-3xl md:text-4xl font-bold text-[#64FFDA] mb-4 text-center en-content hidden">The System Modules in Detail</h2>
+                
+                <p class="text-lg text-[#CCD6F6] mb-12 max-w-3xl mx-auto text-center de-content">
+                    Ein ganzheitliches Ökosystem aus miteinander verbundenen Sicherheitsmodulen.
+                </p>
+                <p class="text-lg text-[#CCD6F6] mb-12 max-w-3xl mx-auto text-center en-content hidden">
+                    A holistic ecosystem of interconnected security modules.
+                </p>
+                
+                <!-- Module Tabs -->
+                <div class="max-w-6xl mx-auto">
+                    <div class="flex overflow-x-auto pb-2 mb-8 scrollbar-hide">
+                        <button class="module-tab px-6 py-3 font-medium text-[#CCD6F6] hover:text-[#64FFDA] transition duration-300 tab-active" data-tab="sentinelcore">
+                            <span class="de-content">SentinelCore</span>
+                            <span class="en-content hidden">SentinelCore</span>
+                        </button>
+                        <button class="module-tab px-6 py-3 font-medium text-[#CCD6F6] hover:text-[#64FFDA] transition duration-300" data-tab="sentinelmail">
+                            <span class="de-content">SentinelMail</span>
+                            <span class="en-content hidden">SentinelMail</span>
+                        </button>
+                        <button class="module-tab px-6 py-3 font-medium text-[#CCD6F6] hover:text-[#64FFDA] transition duration-300" data-tab="sentinelendpoint">
+                            <span class="de-content">SentinelEndpoint</span>
+                            <span class="en-content hidden">SentinelEndpoint</span>
+                        </button>
+                        <button class="module-tab px-6 py-3 font-medium text-[#CCD6F6] hover:text-[#64FFDA] transition duration-300" data-tab="sentinelai">
+                            <span class="de-content">SentinelAI</span>
+                            <span class="en-content hidden">SentinelAI</span>
+                        </button>
+                        <button class="module-tab px-6 py-3 font-medium text-[#CCD6F6] hover:text-[#64FFDA] transition duration-300" data-tab="sentinelvirt">
+                            <span class="de-content">SentinelVirt</span>
+                            <span class="en-content hidden">SentinelVirt</span>
+                        </button>
+                        <button class="module-tab px-6 py-3 font-medium text-[#CCD6F6] hover:text-[#64FFDA] transition duration-300" data-tab="sentinelchain">
+                            <span class="de-content">SentinelChain</span>
+                            <span class="en-content hidden">SentinelChain</span>
+                        </button>
+                        <button class="module-tab px-6 py-3 font-medium text-[#CCD6F6] hover:text-[#64FFDA] transition duration-300" data-tab="otinfra">
+                            <span class="de-content">OT-Infrastruktur</span>
+                            <span class="en-content hidden">OT Infrastructure</span>
+                        </button>
+                    </div>
+                    
+                    <!-- Module Content -->
+                    <div class="module-content">
+                        <!-- SentinelCore -->
+                        <div id="sentinelcore" class="module-tab-content active bg-[#112240] p-6 rounded-lg">
+                            <h3 class="text-2xl font-bold text-[#64FFDA] mb-4 de-content">SentinelCore: Das zentrale Nervensystem</h3>
+                            <h3 class="text-2xl font-bold text-[#64FFDA] mb-4 en-content hidden">SentinelCore: The Central Nervous System</h3>
+                            
+                            <p class="text-[#CCD6F6] mb-6 de-content">
+                                SentinelCore ist das Herzstück der Architektur, das alle anderen Module koordiniert und integriert. Es fungiert als zentraler Orchestrator für Sicherheitsrichtlinien, Ereigniskorrelation und systemweite Entscheidungsfindung. Durch seine Microservice-Architektur ermöglicht es eine hochverfügbare und fehlertolerante Plattform, die selbst bei partiellen Ausfällen weiterhin kritische Funktionen aufrechterhält.
+                            </p>
+                            <p class="text-[#CCD6F6] mb-6 en-content hidden">
+                                SentinelCore is the heart of the architecture that coordinates and integrates all other modules. It serves as the central orchestrator for security policies, event correlation, and system-wide decision making. Through its microservice architecture, it enables a highly available and fault-tolerant platform that maintains critical functions even in the event of partial failures.
+                            </p>
+                            
+                            <div class="code-block p-4 rounded mb-6">
+                                <pre class="text-[#CCD6F6] overflow-x-auto">
+                                    <code>
+// Beispiel für eine SentinelCore Policy-Definition
+{
+    "policyId": "SC-2023-001",
+    "name": "Kritische Infrastruktur Schutz",
+    "description": "Automatisierte Reaktion auf OT-bezogene Bedrohungen",
+    "triggers": [
+        {
+            "module": "SentinelAI",
+            "eventType": "AnomalyDetected",
+            "severity": "High"
+        },
+        {
+            "module": "SentinelEndpoint",
+            "eventType": "MalwareExecution",
+            "target": "OT-Device"
+        }
+    ],
+    "actions": [
+        {
+            "module": "SentinelVirt",
+            "action": "IsolateDevice",
+            "parameters": {
+                "quarantineLevel": "Strict"
+            }
+        },
+        {
+            "module": "SentinelChain",
+            "action": "LogIncident",
+            "parameters": {
+                "immutable": true
+            }
+        }
+    ],
+    "priority": 1,
+    "enabled": true
+}
+                                    </code>
+                                </pre>
+                            </div>
+                            
+                            <div class="flex flex-wrap gap-4">
+                                <span class="bg-[#0A192F] text-[#64FFDA] px-3 py-1 rounded-full text-sm de-content">Zentrale Orchestrierung</span>
+                                <span class="bg-[#0A192F] text-[#64FFDA] px-3 py-1 rounded-full text-sm en-content hidden">Central Orchestration</span>
+                                <span class="bg-[#0A192F] text-[#64FFDA] px-3 py-1 rounded-full text-sm de-content">Policy-Management</span>
+                                <span class="bg-[#0A192F] text-[#64FFDA] px-3 py-1 rounded-full text-sm en-content hidden">Policy Management</span>
+                                <span class="bg-[#0A192F] text-[#64FFDA] px-3 py-1 rounded-full text-sm de-content">Ereigniskorrelation</span>
+                                <span class="bg-[#0A192F] text-[#64FFDA] px-3 py-1 rounded-full text-sm en-content hidden">Event Correlation</span>
+                                <span class="bg-[#0A192F] text-[#64FFDA] px-3 py-1 rounded-full text-sm de-content">Microservices</span>
+                                <span class="bg-[#0A192F] text-[#64FFDA] px-3 py-1 rounded-full text-sm en-content hidden">Microservices</span>
+                            </div>
+                        </div>
+                        
+                        <!-- SentinelMail -->
+                        <div id="sentinelmail" class="module-tab-content hidden bg-[#112240] p-6 rounded-lg">
+                            <h3 class="text-2xl font-bold text-[#64FFDA] mb-4 de-content">SentinelMail: Der E-Mail-Sicherheitswächter</h3>
+                            <h3 class="text-2xl font-bold text-[#64FFDA] mb-4 en-content hidden">SentinelMail: The Email Security Guardian</h3>
+                            
+                            <p class="text-[#CCD6F6] mb-6 de-content">
+                                SentinelMail bietet mehrschichtigen Schutz für E-Mail-Kommunikation, der über traditionelle Spam- und Malware-Filter hinausgeht. Es nutzt fortschrittliche linguistische Analysen, Verhaltensmustererkennung und KI-gestützte Absenderbewertung, um gezielte Angriffe wie CEO Fraud oder Business Email Compromise zu erkennen. Die Integration mit SentinelAI ermöglicht kontinuierliches Lernen aus neuen Bedrohungen.
+                            </p>
+                            <p class="text-[#CCD6F6] mb-6 en-content hidden">
+                                SentinelMail provides multi-layered protection for email communication that goes beyond traditional spam and malware filters. It uses advanced linguistic analysis, behavioral pattern recognition, and AI-assisted sender evaluation to detect targeted attacks such as CEO fraud or business email compromise. Integration with SentinelAI enables continuous learning from new threats.
+                            </p>
+                            
+                            <div class="code-block p-4 rounded mb-6">
+                                <pre class="text-[#CCD6F6] overflow-x-auto">
+                                    <code>
+# Beispiel für eine SentinelMail Filterregel
+def analyze_email(email):
+    threat_score = 0
+    
+    # Linguistische Analyse
+    urgency_keywords = ["dringend", "sofort", "vertraulich"]
+    if any(keyword in email.body.lower() for keyword in urgency_keywords):
+        threat_score += 20
+    
+    # Absender-Verifikation
+    if not verify_dkim(email.headers):
+        threat_score += 30
+    
+    # Anhang-Analyse
+    for attachment in email.attachments:
+        if attachment.is_executable and not attachment.is_expected:
+            threat_score += 50
+        elif attachment.has_macros:
+            threat_score += 40
+    
+    # Verhaltensmuster
+    if email.sender not in expected_senders and email.recipient in high_value_targets:
+        threat_score += 35
+    
+    # SentinelAI Integration
+    ai_analysis = sentinel_ai.analyze_email_context(email)
+    threat_score += ai_analysis.get('threat_score', 0)
+    
+    return threat_score
+                                    </code>
+                                </pre>
+                            </div>
+                            
+                            <div class="flex flex-wrap gap-4">
+                                <span class="bg-[#0A192F] text-[#64FFDA] px-3 py-1 rounded-full text-sm de-content">Linguistische Analyse</span>
+                                <span class="bg-[#0A192F] text-[#64FFDA] px-3 py-1 rounded-full text-sm en-content hidden">Linguistic Analysis</span>
+                                <span class="bg-[#0A192F] text-[#64FFDA] px-3 py-1 rounded-full text-sm de-content">Verhaltensmuster</span>
+                                <span class="bg-[#0A192F] text-[#64FFDA] px-3 py-1 rounded-full text-sm en-content hidden">Behavioral Patterns</span>
+                                <span class="bg-[#0A192F] text-[#64FFDA] px-3 py-1 rounded-full text-sm de-content">KI-Integration</span>
+                                <span class="bg-[#0A192F] text-[#64FFDA] px-3 py-1 rounded-full text-sm en-content hidden">AI Integration</span>
+                                <span class="bg-[#0A192F] text-[#64FFDA] px-3 py-1 rounded-full text-sm de-content">BEC-Schutz</span>
+                                <span class="bg-[#0A192F] text-[#64FFDA] px-3 py-1 rounded-full text-sm en-content hidden">BEC Protection</span>
+                            </div>
+                        </div>
+                        
+                        <!-- SentinelAI -->
+                        <div id="sentinelai" class="module-tab-content hidden bg-[#112240] p-6 rounded-lg">
+                            <h3 class="text-2xl font-bold text-[#64FFDA] mb-4 de-content">SentinelAI: Das künstlich-intelligente Abwehrzentrum</h3>
+                            <h3 class="text-2xl font-bold text-[#64FFDA] mb-4 en-content hidden">SentinelAI: The AI-Powered Defense Center</h3>
+                            
+                            <p class="text-[#CCD6F6] mb-6 de-content">
+                                Die künstliche Intelligenz der Plattform besteht aus einem Ensemble spezialisierter Modelle für Anomalieerkennung, Bedrohungsanalyse und Entscheidungsunterstützung. SentinelAI kombiniert überwachtes Lernen mit unüberwachten Techniken wie Autoencodern für die Erkennung bisher unbekannter Angriffsmuster. Besonderes Augenmerk liegt auf der Erklärbarkeit der Modelle, um Compliance-Anforderungen zu genügen und das Vertrauen der Sicherheitsteams zu stärken.
+                            </p>
+                            <p class="text-[#CCD6F6] mb-6 en-content hidden">
+                                The platform's artificial intelligence consists of an ensemble of specialized models for anomaly detection, threat analysis, and decision support. SentinelAI combines supervised learning with unsupervised techniques such as autoencoders for detecting previously unknown attack patterns. Particular emphasis is placed on the explainability of the models to meet compliance requirements and strengthen the trust of security teams.
+                            </p>
+                            
+                            <div class="code-block p-4 rounded mb-6">
+                                <pre class="text-[#CCD6F6] overflow-x-auto">
+                                    <code>
+import tensorflow as tf
+from tensorflow.keras.layers import Input, Dense
+from tensorflow.keras.models import Model
+
+# Autoencoder für Anomalieerkennung in Netzwerkverkehr
+class AnomalyDetector(Model):
+    def __init__(self, input_dim):
+        super(AnomalyDetector, self).__init__()
+        self.encoder = tf.keras.Sequential([
+            Input(shape=(input_dim,)),
+            Dense(64, activation='relu'),
+            Dense(32, activation='relu'),
+            Dense(16, activation='relu')
+        ])
+        
+        self.decoder = tf.keras.Sequential([
+            Dense(32, activation='relu'),
+            Dense(64, activation='relu'),
+            Dense(input_dim, activation='sigmoid')
+        ])
+    
+    def call(self, x):
+        encoded = self.encoder(x)
+        decoded = self.decoder(encoded)
+        return decoded
+    
+    def reconstruct_error(self, x):
+        reconstructed = self.call(x)
+        return tf.reduce_mean(tf.square(x - reconstructed), axis=1)
+
+# Modell initialisieren und trainieren
+input_dim = 50  # Anzahl der Features im Netzwerkverkehr
+model = AnomalyDetector(input_dim)
+model.compile(optimizer='adam', loss='mse')
+
+# Trainingsdaten (normaler Verkehr)
+normal_traffic = load_normal_traffic()
+model.fit(normal_traffic, normal_traffic, epochs=20, batch_size=32)
+
+# Anomalie-Erkennung
+def detect_anomalies(traffic_data):
+    errors = model.reconstruct_error(traffic_data)
+    threshold = np.percentile(errors, 95)  # 95. Perzentil als Schwellenwert
+    anomalies = errors > threshold
+    return anomalies, errors
+                                    </code>
+                                </pre>
+                            </div>
+                            
+                            <div class="flex flex-wrap gap-4">
+                                <span class="bg-[#0A192F] text-[#64FFDA] px-3 py-1 rounded-full text-sm de-content">Anomalieerkennung</span>
+                                <span class="bg-[#0A192F] text-[#64FFDA] px-3 py-1 rounded-full text-sm en-content hidden">Anomaly Detection</span>
+                                <span class="bg-[#0A192F] text-[#64FFDA] px-3 py-1 rounded-full text-sm de-content">Autoencoder</span>
+                                <span class="bg-[#0A192F] text-[#64FFDA] px-3 py-1 rounded-full text-sm en-content hidden">Autoencoders</span>
+                                <span class="bg-[#0A192F] text-[#64FFDA] px-3 py-1 rounded-full text-sm de-content">Erklärbare KI</span>
+                                <span class="bg-[#0A192F] text-[#64FFDA] px-3 py-1 rounded-full text-sm en-content hidden">Explainable AI</span>
+                                <span class="bg-[#0A192F] text-[#64FFDA] px-3 py-1 rounded-full text-sm de-content">Ensemble-Lernen</span>
+                                <span class="bg-[#0A192F] text-[#64FFDA] px-3 py-1 rounded-full text-sm en-content hidden">Ensemble Learning</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Other modules would follow the same pattern -->
+                    </div>
+                </div>
+                
+                <div class="text-center mt-12">
+                    <a href="#vision" class="inline-block bg-transparent border-2 border-[#64FFDA] text-[#64FFDA] px-8 py-3 rounded hover:bg-[#64FFDA] hover:text-[#0A192F] transition duration-300 de-content">
+                        Vision des Architekten
+                    </a>
+                    <a href="#vision" class="inline-block bg-transparent border-2 border-[#64FFDA] text-[#64FFDA] px-8 py-3 rounded hover:bg-[#64FFDA] hover:text-[#0A192F] transition duration-300 en-content hidden">
+                        Architect's Vision
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Vision Section -->
+        <section id="vision" class="py-20 bg-[#112240]">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl md:text-4xl font-bold text-[#64FFDA] mb-12 text-center de-content">Vision des Architekten</h2>
+                <h2 class="text-3xl md:text-4xl font-bold text-[#64FFDA] mb-12 text-center en-content hidden">The Architect's Vision</h2>
+                
+                <div class="max-w-4xl mx-auto">
+                    <div class="mb-12">
+                        <p class="text-lg text-[#CCD6F6] mb-6 de-content">
+                            Die digitale Transformation hat die Art und Weise, wie wir Geschäfte betreiben, grundlegend verändert. Mit dieser Veränderung geht eine exponentielle Zunahme von Cyber-Bedrohungen einher, die traditionelle Sicherheitsansätze überfordern. SentinelSecureSuite wurde als Antwort auf diese Herausforderung konzipiert - nicht als eine weitere punktuelle Lösung, sondern als ein ganzheitliches, autonomes Sicherheitsökosystem.
+                        </p>
+                        <p class="text-lg text-[#CCD6F6] mb-6 en-content hidden">
+                            Digital transformation has fundamentally changed the way we do business. With this change comes an exponential increase in cyber threats that overwhelm traditional security approaches. SentinelSecureSuite was conceived as a response to this challenge - not as another point solution, but as a holistic, autonomous security ecosystem.
+                        </p>
+                        
+                        <p class="text-lg text-[#CCD6F6] de-content">
+                            Mein Ziel war es, eine Architektur zu schaffen, die nicht nur auf bekannte Bedrohungen reagiert, sondern durch künstliche Intelligenz und maschinelles Lernen proaktiv neue Angriffsmuster erkennt. Die Konvergenz von IT und OT-Sicherheit war dabei ein zentrales Anliegen, da die Grenzen zwischen diesen Domänen in der Industrie 4.0 zunehmend verschwimmen.
+                        </p>
+                        <p class="text-lg text-[#CCD6F6] en-content hidden">
+                            My goal was to create an architecture that not only responds to known threats but proactively detects new attack patterns through artificial intelligence and machine learning. The convergence of IT and OT security was a central concern, as the boundaries between these domains in Industry 4.0 are increasingly blurred.
+                        </p>
+                    </div>
+                    
+                    <div class="border-t border-[#233554] my-12"></div>
+                    
+                    <div>
+                        <h3 class="text-2xl font-bold text-[#64FFDA] mb-6 text-center de-content">Abschließende Worte</h3>
+                        <h3 class="text-2xl font-bold text-[#64FFDA] mb-6 text-center en-content hidden">Final Words</h3>
+                        
+                        <p class="text-lg text-[#CCD6F6] mb-8 de-content">
+                            SentinelSecureSuite ist mehr als eine technische Lösung - es ist eine Philosophie der resilienten Sicherheit. In einer Welt, in der Angreifer zunehmend vernetzt und automatisiert vorgehen, müssen unsere Abwehrmechanismen ebenso vernetzt und intelligent sein. Diese Architektur verkörpert meine Überzeugung, dass Sicherheit kein statischer Zustand, sondern ein kontinuierlicher Prozess der Anpassung und des Lernens sein muss.
+                        </p>
+                        <p class="text-lg text-[#CCD6F6] mb-8 en-content hidden">
+                            SentinelSecureSuite is more than a technical solution - it is a philosophy of resilient security. In a world where attackers are increasingly networked and automated, our defense mechanisms must be equally networked and intelligent. This architecture embodies my belief that security must not be a static state but a continuous process of adaptation and learning.
+                        </p>
+                        
+                        <div class="text-right">
+                            <p class="text-[#64FFDA] italic text-lg">T. Baumann</p>
+                            <p class="text-[#8892B0] text-sm de-content">Cybersecurity Architekt</p>
+                            <p class="text-[#8892B0] text-sm en-content hidden">Cybersecurity Architect</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-center mt-12">
+                    <a href="#contact" class="inline-block bg-transparent border-2 border-[#64FFDA] text-[#64FFDA] px-8 py-3 rounded hover:bg-[#64FFDA] hover:text-[#0A192F] transition duration-300 de-content">
+                        Kontakt aufnehmen
+                    </a>
+                    <a href="#contact" class="inline-block bg-transparent border-2 border-[#64FFDA] text-[#64FFDA] px-8 py-3 rounded hover:bg-[#64FFDA] hover:text-[#0A192F] transition duration-300 en-content hidden">
+                        Get in Touch
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="py-20 bg-[#0A192F]">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl md:text-4xl font-bold text-[#64FFDA] mb-4 text-center de-content">Kontakt & Demo anfordern</h2>
+                <h2 class="text-3xl md:text-4xl font-bold text-[#64FFDA] mb-4 text-center en-content hidden">Contact & Request a Demo</h2>
+                
+                <p class="text-lg text-[#CCD6F6] mb-12 max-w-2xl mx-auto text-center de-content">
+                    Kontaktieren Sie uns, um mehr über die SentinelSecureSuite zu erfahren oder eine persönliche Demonstration zu vereinbaren.
+                </p>
+                <p class="text-lg text-[#CCD6F6] mb-12 max-w-2xl mx-auto text-center en-content hidden">
+                    Contact us to learn more about SentinelSecureSuite or to schedule a personal demonstration.
+                </p>
+                
+                <div class="max-w-2xl mx-auto bg-[#112240] p-8 rounded-lg shadow-lg">
+                    <form id="contactForm">
+                        <div class="mb-6">
+                            <label for="name" class="block text-[#CCD6F6] mb-2 de-content">Name</label>
+                            <label for="name" class="block text-[#CCD6F6] mb-2 en-content hidden">Name</label>
+                            <input type="text" id="name" class="w-full px-4 py-2 bg-[#0A192F] border border-[#233554] rounded text-[#CCD6F6] focus:outline-none focus:border-[#64FFDA]" required>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label for="company" class="block text-[#CCD6F6] mb-2 de-content">Firma</label>
+                            <label for="company" class="block text-[#CCD6F6] mb-2 en-content hidden">Company</label>
+                            <input type="text" id="company" class="w-full px-4 py-2 bg-[#0A192F] border border-[#233554] rounded text-[#CCD6F6] focus:outline-none focus:border-[#64FFDA]" required>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label for="email" class="block text-[#CCD6F6] mb-2 de-content">E-Mail</label>
+                            <label for="email" class="block text-[#CCD6F6] mb-2 en-content hidden">Email</label>
+                            <input type="email" id="email" class="w-full px-4 py-2 bg-[#0A192F] border border-[#233554] rounded text-[#CCD6F6] focus:outline-none focus:border-[#64FFDA]" required>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label for="message" class="block text-[#CCD6F6] mb-2 de-content">Nachricht</label>
+                            <label for="message" class="block text-[#CCD6F6] mb-2 en-content hidden">Message</label>
+                            <textarea id="message" rows="5" class="w-full px-4 py-2 bg-[#0A192F] border border-[#233554] rounded text-[#CCD6F6] focus:outline-none focus:border-[#64FFDA]" required></textarea>
+                        </div>
+                        
+                        <div class="text-center">
+                            <button type="submit" class="bg-[#64FFDA] text-[#0A192F] px-8 py-3 rounded font-medium hover:bg-[#52e0c4] transition duration-300 de-content">
+                                Anfrage senden
+                            </button>
+                            <button type="submit" class="bg-[#64FFDA] text-[#0A192F] px-8 py-3 rounded font-medium hover:bg-[#52e0c4] transition duration-300 en-content hidden">
+                                Send Request
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-[#112240] py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-2xl font-bold text-[#64FFDA] mb-4">SentinelSecureSuite</h3>
+                    <p class="text-[#8892B0] de-content">© 2025 | Architektur von T. Baumann</p>
+                    <p class="text-[#8892B0] en-content hidden">© 2025 | Architecture by T. Baumann</p>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold text-[#CCD6F6] mb-4 de-content">Sitemap</h4>
+                    <h4 class="text-lg font-semibold text-[#CCD6F6] mb-4 en-content hidden">Sitemap</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#home" class="text-[#8892B0] hover:text-[#64FFDA] transition duration-300 de-content">Home</a></li>
+                        <li><a href="#home" class="text-[#8892B0] hover:text-[#64FFDA] transition duration-300 en-content hidden">Home</a></li>
+                        <li><a href="#principles" class="text-[#8892B0] hover:text-[#64FFDA] transition duration-300 de-content">Prinzipien</a></li>
+                        <li><a href="#principles" class="text-[#8892B0] hover:text-[#64FFDA] transition duration-300 en-content hidden">Principles</a></li>
+                        <li><a href="#platform" class="text-[#8892B0] hover:text-[#64FFDA] transition duration-300 de-content">Plattform</a></li>
+                        <li><a href="#platform" class="text-[#8892B0] hover:text-[#64FFDA] transition duration-300 en-content hidden">Platform</a></li>
+                        <li><a href="#vision" class="text-[#8892B0] hover:text-[#64FFDA] transition duration-300 de-content">Vision</a></li>
+                        <li><a href="#vision" class="text-[#8892B0] hover:text-[#64FFDA] transition duration-300 en-content hidden">Vision</a></li>
+                        <li><a href="#contact" class="text-[#8892B0] hover:text-[#64FFDA] transition duration-300 de-content">Kontakt</a></li>
+                        <li><a href="#contact" class="text-[#8892B0] hover:text-[#64FFDA] transition duration-300 en-content hidden">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold text-[#CCD6F6] mb-4 de-content">Rechtliches</h4>
+                    <h4 class="text-lg font-semibold text-[#CCD6F6] mb-4 en-content hidden">Legal</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-[#8892B0] hover:text-[#64FFDA] transition duration-300 de-content">Impressum</a></li>
+                        <li><a href="#" class="text-[#8892B0] hover:text-[#64FFDA] transition duration-300 en-content hidden">Legal Notice</a></li>
+                        <li><a href="#" class="text-[#8892B0] hover:text-[#64FFDA] transition duration-300 de-content">Datenschutz</a></li>
+                        <li><a href="#" class="text-[#8892B0] hover:text-[#64FFDA] transition duration-300 en-content hidden">Privacy Policy</a></li>
+                        <li><a href="#" class="text-[#8892B0] hover:text-[#64FFDA] transition duration-300 de-content">AGB</a></li>
+                        <li><a href="#" class="text-[#8892B0] hover:text-[#64FFDA] transition duration-300 en-content hidden">Terms</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-[#233554] mt-12 pt-8 text-center text-[#8892B0]">
+                <p class="de-content">SentinelSecureSuite - Ein autonomes Sicherheitsökosystem für die Industrie 4.0</p>
+                <p class="en-content hidden">SentinelSecureSuite - An autonomous security ecosystem for Industry 4.0</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Language Toggle
+        const languageToggle = document.getElementById('languageToggle');
+        const deContents = document.querySelectorAll('.de-content');
+        const enContents = document.querySelectorAll('.en-content');
+        
+        languageToggle.addEventListener('click', () => {
+            deContents.forEach(content => {
+                content.classList.toggle('hidden');
+            });
+            
+            enContents.forEach(content => {
+                content.classList.toggle('hidden');
+            });
+            
+            // Update active state in language switcher
+            const deSpan = languageToggle.querySelector('span:first-child');
+            const enSpan = languageToggle.querySelector('span:last-child');
+            
+            if (deSpan.classList.contains('active')) {
+                deSpan.classList.remove('active');
+                enSpan.classList.add('active');
+            } else {
+                enSpan.classList.remove('active');
+                deSpan.classList.add('active');
+            }
+        });
+        
+        // Mobile Menu Toggle
+        const mobileMenuButton = document.getElementById('mobileMenuButton');
+        const mobileMenu = document.getElementById('mobileMenu');
+        
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+        
+        // Module Tabs
+        const moduleTabs = document.querySelectorAll('.module-tab');
+        const moduleContents = document.querySelectorAll('.module-tab-content');
+        
+        moduleTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Remove active class from all tabs and contents
+                moduleTabs.forEach(t => t.classList.remove('tab-active'));
+                moduleContents.forEach(c => c.classList.remove('active'));
+                
+                // Add active class to clicked tab
+                tab.classList.add('tab-active');
+                
+                // Show corresponding content
+                const tabId = tab.getAttribute('data-tab');
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Close mobile menu if open
+                mobileMenu.classList.add('hidden');
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Form submission
+        const contactForm = document.getElementById('contactForm');
+        
+        if (contactForm) {
+            contactForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const isEnglish = document.querySelector('.en-content:not(.hidden)') !== null;
+                const successMessage = isEnglish 
+                    ? 'Thank you for your message! We will get back to you soon.' 
+                    : 'Vielen Dank für Ihre Nachricht! Wir werden uns bald bei Ihnen melden.';
+                
+                alert(successMessage);
+                contactForm.reset();
+            });
+        }
+        
+        // Highlight active nav link based on scroll position
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('header nav a, #mobileMenu a');
+            
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                
+                if (pageYOffset >= sectionTop - 100) {
+                    current = section.getAttribute('id');
+                }
+            });
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+<p style="border-radius: 8px; text-align: center; font-size: 12px; color: #fff; margin-top: 16px;position: fixed; left: 8px; bottom: 8px; z-index: 10; background: rgba(0, 0, 0, 0.8); padding: 4px 8px;">Made with <img src="https://enzostvs-deepsite.hf.space/logo.svg" alt="DeepSite Logo" style="width: 16px; height: 16px; vertical-align: middle;display:inline-block;margin-right:3px;filter:brightness(0) invert(1);"><a href="https://enzostvs-deepsite.hf.space" style="color: #fff;text-decoration: underline;" target="_blank" >DeepSite</a> - 🧬 <a href="https://enzostvs-deepsite.hf.space?remix=Thomasb78/sentinelsecuresuite" style="color: #fff;text-decoration: underline;" target="_blank" >Remix</a></p></body>
 </html>
